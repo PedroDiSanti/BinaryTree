@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pedro/CLionProjects/binary_tree/Booleano.h
+
+/home/pedro/CLionProjects/binary_tree/FilaPointer.h
+Booleano.h
+/home/pedro/CLionProjects/binary_tree/Booleano.h
+
+/home/pedro/CLionProjects/binary_tree/desenharArvore.h
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+math.h
+-
+
+/home/pedro/CLionProjects/binary_tree/main.c
+stdlib.h
+-
+stdio.h
+-
+FilaPointer.h
+/home/pedro/CLionProjects/binary_tree/FilaPointer.h
+Booleano.h
+/home/pedro/CLionProjects/binary_tree/Booleano.h
+desenharArvore.h
+/home/pedro/CLionProjects/binary_tree/desenharArvore.h
+

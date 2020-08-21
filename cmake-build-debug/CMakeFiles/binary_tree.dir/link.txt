@@ -1,0 +1,1 @@
+/usr/bin/gcc -g   CMakeFiles/binary_tree.dir/main.c.o  -o binary_tree  -lm 
