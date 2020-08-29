@@ -3,6 +3,7 @@
 
 CMakeFiles/binary_tree.dir/main.c.o: ../Booleano.h
 CMakeFiles/binary_tree.dir/main.c.o: ../FilaPointer.h
+CMakeFiles/binary_tree.dir/main.c.o: ../PilhaPointer.h
 CMakeFiles/binary_tree.dir/main.c.o: ../desenharArvore.h
 CMakeFiles/binary_tree.dir/main.c.o: ../main.c
 

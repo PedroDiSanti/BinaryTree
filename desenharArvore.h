@@ -9,7 +9,7 @@ struct no{
     struct no * esq;
     struct no * dir;
 
-}*raiz=NULL;
+}*raiz;
 
 int altura(struct no *tree);
 void escrever(int rel , int pos, struct no* raiz , char* lado , int nivel);
@@ -23,20 +23,20 @@ void desenharArvore(struct no *raiz){
     int i,j;
 
     int h= altura(raiz);
-    int nn =pow(2,h+1)-1;
+    int nn =pow(2,h + 1) - 1;
 
     A = (int **)malloc((h+1+1)*sizeof(int *));
-    for(int i=1;i<=h+1;i++)
-        A[i] = (int *)malloc((nn+1)*sizeof(int));
+    for(int i = 1;i <= h + 1; i++)
+        A[i] = (int *)malloc((nn + 1)*sizeof(int));
 
-    for(i = 1;i<=h+1;i++)
-        for(j = 1;j<=nn;j++)
+    for(i = 1; i <= h + 1; i++)
+        for(j = 1;j <= nn; j++)
             A[i][j] = 0;
 
     escrever(nn + 1, (nn + 1) / 2, raiz, "esq", 1);
 
-    for(i = 1;i<=h+1;i++){
-        for(j = 1;j<=nn;j++){
+    for(i = 1; i <= h + 1; i++){
+        for(j = 1; j <= nn; j++){
             if(A[i][j]!=0)
                 printf("%d",A[i][j]);
             else
@@ -47,8 +47,6 @@ void desenharArvore(struct no *raiz){
 
     free(A);
 }
-
-
 
 void escrever(int rel , int pos, struct no *raiz , char *lado , int nivel){
     if(raiz == NULL)
@@ -65,9 +63,7 @@ void escrever(int rel , int pos, struct no *raiz , char *lado , int nivel){
         escrever(rel + pos, pos / 2, raiz->esq, "esq", nivel + 1);
         escrever(rel + pos, pos / 2, raiz->dir, "dir", nivel + 1);
     }
-
 }
-
 
 int altura(struct no *tree){
     if(tree){

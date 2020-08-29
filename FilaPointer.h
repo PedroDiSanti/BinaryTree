@@ -4,7 +4,7 @@
 
 typedef struct Celula{
     void * item;         /* item é um pointer */
-    struct Celula *next; /* o campo next guarda o endereço do elemento seguinte da fila */
+    struct Celula *next; /* o campo next guarda o endereço do item seguinte da fila */
 } Celula;
 
 typedef struct{

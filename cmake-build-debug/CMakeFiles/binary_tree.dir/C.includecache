@@ -12,6 +12,10 @@
 Booleano.h
 /home/pedro/CLionProjects/binary_tree/Booleano.h
 
+/home/pedro/CLionProjects/binary_tree/PilhaPointer.h
+Booleano.h
+/home/pedro/CLionProjects/binary_tree/Booleano.h
+
 /home/pedro/CLionProjects/binary_tree/desenharArvore.h
 stdio.h
 -
@@ -23,14 +27,16 @@ math.h
 -
 
 /home/pedro/CLionProjects/binary_tree/main.c
-stdlib.h
--
 stdio.h
 -
-FilaPointer.h
-/home/pedro/CLionProjects/binary_tree/FilaPointer.h
+stdlib.h
+-
 Booleano.h
 /home/pedro/CLionProjects/binary_tree/Booleano.h
+FilaPointer.h
+/home/pedro/CLionProjects/binary_tree/FilaPointer.h
+PilhaPointer.h
+/home/pedro/CLionProjects/binary_tree/PilhaPointer.h
 desenharArvore.h
 /home/pedro/CLionProjects/binary_tree/desenharArvore.h
 
