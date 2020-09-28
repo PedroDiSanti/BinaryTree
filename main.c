@@ -2,11 +2,13 @@
   Arquivo: main.c
   Autor: Pedro Di Santi
   Data: 20/08/2020 18:39
+  Atualizado em: 27/09/2020 20:55
   Descrição:
     Este programa tem como finalidade explorar a manipulação de uma Árvore Binária. Ela implementa a criação de uma nova
-        árvore, onde novos elementos podem ser inseridos.
+        árvore, onde novos elementos podem ser inseridos, buscados, removidos, encontrados sucessores e antecessores,
+        além de ancestrais em comum.
     Além disso, podemos desenhar a árvore inserida de maneira gráfica. Também temos a implementação do caminhamento bfs,
-    do caminhamentos recursivo eRd, do caminhamento recursivo Red e do caminhamento edR.
+        do caminhamentos recursivo eRd, do caminhamento recursivo Red e do caminhamento edR.
     Por fim, podemos calcular a quantidade de nós e a altura da árvore inserida.
   Funções baseadas em: https://pucsp.sharepoint.com/sites/EDNL/Material%20de%20Aula/CODIGOS/MODELO%20PROGRAMA.c
   De: Lisbete Madsen Barbosa
@@ -15,7 +17,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "Booleano.h"
 #include "FilaPointer.h"
 #include "PilhaPointer.h"
@@ -23,36 +24,45 @@
 
 
 typedef struct No{
-    int item;
-    struct No *esq;
-    struct No *dir;
+    int chave;
+    struct No * pai;
+    struct No * esq;
+    struct No * dir;
 } No;
 
 typedef No *Arvore;
 
 Arvore criarArvoreVazia( );
-Arvore construirNovoNo(int);
-Arvore inserirElemento(Arvore, int);
-void mostrarArvore(Arvore);
 Arvore buscarItem(Arvore, int);
-No* buscarItemRecursivo(Arvore, int);
-No* rodarDireita(No*);
-No* rodarEsquerda(No*);
-No* rodarDuplaDireita(No*);
-No* rodarDuplaEsquerda(No*);
+Arvore inserirElemento(Arvore, int);
+
+No * minValor(No*);
+No * maxValor(No*);
+No * rodarDireita(No*);
+No * criarNoVazio(int);
+No * rodarEsquerda(No*);
+No * rodarDuplaDireita(No*);
+No * rodarDuplaEsquerda(No*);
+No * obterSucessor(Arvore, No*);
+No * obterAnterior(Arvore, No*);
+No * obterAncestral(Arvore , No*, No*);
+No * buscarItemRecursivo(Arvore, int);
+No * obterAncestralR(Arvore , No*, No*);
+
 int contarNos(Arvore);
-int contarFolhas(Arvore);
 int obterAltura(Arvore);
+int contarFolhas(Arvore);
+
 void mostrarRaiz(Arvore);
-void mostrarPrimeiro(Arvore); //eRd
-void mostrarUltimo(Arvore); //eRd
+void mostrarArvore(Arvore);
+void mostrarUltimo(Arvore);
+void mostrarPrimeiro(Arvore);
 void mostrarArvoreBFS(Arvore);
 void mostrarArvoreRED(Arvore);
 void mostrarArvoreERD(Arvore);
 void mostrarArvoreEDR(Arvore);
 
-int main()
-{
+int main(){
     char ch = 'i';
     int valor;
     Arvore arvore = criarArvoreVazia();
@@ -70,6 +80,7 @@ int main()
            "(7) - Rotacionar árvore para esquerda \n "
            "(8) - Rotacionar árvore para dupla direita \n "
            "(9) - Rotacionar árvore para dupla esquerda \n "
+           "(10) - Mostrar anterior e sucessor \n "
            "(Q) - Sair\n"
            "__________________________________"
     );
@@ -105,7 +116,7 @@ int main()
                 if(arvore == NULL)
                     printf(" O item %d não foi encontrado.\n", valor);
                 else
-                    printf("\n O item %d foi encontrado.", arvore->item);
+                    printf("\n O item %d foi encontrado.", arvore->chave);
 
                 break;
             case '3' :
@@ -137,30 +148,48 @@ int main()
                 printf("\n O número de nós da árvore é %d \n", contarNos(arvore));
 
                 break;
+//            case '6':
+//                printf("\n Digite o item a sofrer rotação para a direita: ");
+//                scanf("%d", &valor);
+//                arvore = buscarItemRecursivo(arvore, valor);
+//                arvore = rodarDireita(arvore);
+//
+//                break;
+//            case '7':
+//                printf("\n Digite o item a sofrer rotação para a esquerda: ");
+//                scanf("%d", &valor);
+//                arvore = buscarItemRecursivo(arvore, valor);
+//                arvore = rodarEsquerda(arvore);
+//                break;
+//            case '8':
+//                printf("\n Digite o item a sofrer rotação dupla direita: ");
+//                scanf("%d", &valor);
+//                arvore = buscarItemRecursivo(arvore, valor);
+//                arvore = rodarDuplaDireita(arvore);
+//                break;
+//            case '9':
+//                printf("\n Digite o item a sofrer rotação dupla esquerda: ");
+//                scanf("%d", &valor);
+//                arvore = buscarItemRecursivo(arvore, valor);
+//                arvore = rodarDuplaEsquerda(arvore);
+                break;
             case '6':
-                printf("\n Digite o item a sofrer rotação para a direita: ");
+                printf("\n Digite o item a ser encontrado: ");
                 scanf("%d", &valor);
-                arvore = buscarItemRecursivo(arvore, valor);
-                arvore = rodarDireita(arvore);
+                No *no = criarNoVazio(valor);
 
-                break;
-            case '7':
-                printf("\n Digite o item a sofrer rotação para a esquerda: ");
-                scanf("%d", &valor);
-                arvore = buscarItemRecursivo(arvore, valor);
-                arvore = rodarEsquerda(arvore);
-                break;
-            case '8':
-                printf("\n Digite o item a sofrer rotação dupla direita: ");
-                scanf("%d", &valor);
-                arvore = buscarItemRecursivo(arvore, valor);
-                arvore = rodarDuplaDireita(arvore);
-                break;
-            case '9':
-                printf("\n Digite o item a sofrer rotação dupla esquerda: ");
-                scanf("%d", &valor);
-                arvore = buscarItemRecursivo(arvore, valor);
-                arvore = rodarDuplaEsquerda(arvore);
+                No *ant = obterAnterior(arvore, no);
+                if (ant != NULL)
+                    printf(" O nó sucessor é %d. \n", ant->chave);
+                else
+                    printf("\n Não existe sucessor. \n");
+
+                No *suc = obterSucessor(arvore, no);
+                if (ant != NULL)
+                    printf(" O nó anterior é %d.\n", suc->chave);
+                else
+                    printf("\n Não existe anterior. \n");
+
                 break;
             case 'q':
                 printf("\n Finalizando! :)\n");
@@ -178,23 +207,19 @@ Arvore criarArvoreVazia( ){
     return ap;
 }
 
-Arvore construirNovoNo(int valor){
+No * criarNoVazio(int valor){
     No *novo = malloc(sizeof(No));
-
-    novo->item = valor;
-    novo->esq = NULL;
-    novo->dir = NULL;
-
+    novo->chave = valor;
     return novo;
 }
 
 Arvore inserirElemento(Arvore ap, int valor){
     if(ap == NULL){
-        return construirNovoNo(valor);
+        return criarNoVazio(valor);
     }
-    else if (ap->item < valor)
+    else if (ap->chave < valor)
         ap->dir = inserirElemento(ap->dir, valor);
-    else if (ap->item > valor)
+    else if (ap->chave > valor)
         ap->esq = inserirElemento(ap->esq, valor);
 
     return ap;
@@ -205,12 +230,12 @@ Arvore buscarItem(Arvore ap, int valor){
         return NULL;
     }
 
-    while(ap->item != valor){
+    while(ap->chave != valor){
         if(ap != NULL) {
-            if(ap->item > valor){
+            if(ap->chave > valor){
                 ap = ap->esq;
             }
-            else if(ap->item < valor){
+            else if(ap->chave < valor){
                 ap = ap->dir;
             }
             else{
@@ -221,12 +246,12 @@ Arvore buscarItem(Arvore ap, int valor){
     return ap;
 }
 
-No* buscarItemRecursivo(Arvore ap, int valor){
+No * buscarItemRecursivo(Arvore ap, int valor){
     No *p;
 
     if(ap == NULL)
         p = NULL;
-    else if(ap->item == valor)
+    else if(ap->chave == valor)
         p = ap;
     else{
         p = buscarItemRecursivo(ap->esq, valor);
@@ -234,6 +259,133 @@ No* buscarItemRecursivo(Arvore ap, int valor){
             p = buscarItemRecursivo(ap->dir, valor);
     }
     return p;
+}
+
+No * obterAncestral(Arvore ap, No* p, No* q){
+    No *anc, *c;
+    bool fim;
+    int a, b;
+    anc = NULL;
+
+    if(ap != NULL){
+        if((p != NULL) && (q != NULL)){
+            a = p->chave;
+            b = q->chave;
+            if((a != ap->chave) && (b != ap->chave)){
+                c = ap;
+                fim = FALSE;
+                do {
+                    if ((a < c->chave) && (b < c->chave)) {
+                        anc = c;
+                        c = c->esq;
+                    }
+                    else if ((a > c->chave) && (b > c->chave)) {
+                        anc = c;
+                        c = c->dir;
+                    } else {
+                        fim = TRUE;
+                        if ((a != c->chave) && (b != c->chave)) {
+                            anc = c;
+                        }
+                    }
+                } while(fim == FALSE);
+            }
+        }
+    }
+    return anc;
+}
+
+No * obterAncestralR(Arvore ap, No* p, No* q){
+    No *anc, *e, *d;
+    int a, b;
+
+    if((ap == NULL) || (p == NULL) || (q == NULL)){
+        anc = NULL;
+    } else {
+        a = p->chave;
+        b = q->chave;
+        if((a == ap->chave) || (b == ap->chave)){
+            anc = NULL;
+        } else {
+            e = ap->esq;
+            d = ap->dir;
+            if((a == e->chave) || (a == d->chave)){
+                anc = ap;
+            } else{
+                if((b == e->chave) || (b == d->chave)){
+                    anc = ap;
+                } else {
+                    anc = ap;
+                    if((a < ap->chave) && (b < ap->chave)){
+                        anc = obterAncestralR(ap->esq, p, q);
+                    } else{
+                        if((a > ap->chave) && (b > ap->chave)){
+                            anc = obterAncestralR(ap->dir, p, q);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return anc;
+}
+
+No * minValor(No * n){
+    No *atual = n;
+
+    while (atual->esq != NULL) {
+        atual = atual->esq;
+    }
+    return atual;
+}
+
+No * maxValor(No* n){
+    No *atual = n;
+
+    while(atual->dir != NULL){
+        atual = atual->dir;
+    }
+
+    return atual;
+}
+
+No * obterSucessor(Arvore ap, No* n){
+    No *sucessor = NULL;
+
+    if (n->dir != NULL)
+        return minValor(n->dir);
+
+    while (ap != NULL) {
+        if (n->chave < ap->chave) {
+            sucessor = ap;
+            ap = ap->esq;
+        }
+        else if (n->chave > ap->chave)
+            ap = ap->dir;
+        else
+            break;
+    }
+    return sucessor;
+}
+
+No * obterAnterior(Arvore ap, No* n){
+    No *anterior = NULL;
+
+    if(n->esq != NULL) {
+        return maxValor(n->esq);
+    }
+
+    while (ap != NULL){
+        if (n->chave == ap->chave){
+            break;
+        } else if (n->chave < ap->chave){
+            ap = ap->esq;
+        } else if (n->chave > ap->chave){
+            anterior = ap;
+            ap = ap->dir;
+        }
+    }
+    return anterior;
 }
 
 No* rodarDireita(No* p){
@@ -336,7 +488,7 @@ int obterAltura(Arvore ap){
 
 void mostrarRaiz(Arvore ap){
     if (ap != NULL)
-        printf(" %d  ",ap->item);
+        printf(" %d  ",ap->chave);
 }
 
 void mostrarArvore(Arvore ap){
@@ -354,7 +506,7 @@ void mostrarArvore(Arvore ap){
             }
             if(verificarPilhaVazia(&s)==FALSE){
                 p = acessarTopo(&s);
-                printf("\n %d \n",p->item);
+                printf("\n %d \n",p->chave);
                 popPilha(&s);
                 p = p->dir;
             } else
@@ -425,7 +577,7 @@ void mostrarPrimeiro(Arvore ap){
 
         while(p->esq != NULL)
             p = p->esq;
-        printf("\n O primeiro nó visitado é %d", p->item);
+        printf("\n O primeiro nó visitado é %d", p->chave);
     }
 }
 
@@ -439,9 +591,7 @@ void mostrarUltimo(Arvore ap){
 
         while(p->dir != NULL)
             p = p->dir;
-        printf("\n O último nó visitado é %d", p->item);
+        printf("\n O último nó visitado é %d", p->chave);
     }
 }
-
-
 
